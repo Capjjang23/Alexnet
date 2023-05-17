@@ -5,6 +5,10 @@ from pydub import AudioSegment
 
 i = 0;
 
+def is_folderpath(folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
 for dirname, _, filenames in os.walk("dataset/m4a"):
     for filename in filenames:
         m4a_file = os.path.join(dirname, filename)
@@ -23,7 +27,9 @@ for dirname, _, filenames in os.walk("dataset/m4a"):
 
         # print(start_pos, end_pos, imsi_breed)
 
-        wav_filename = "dataset/wav/" + str(alpha) + "/" + str(alpha) + str(i) + ".wav"
-        print(wav_filename)
+        filepath = "dataset/tempWav/" + str(alpha) + "/" + str(alpha) + str(i) + ".wav"
+        folder_path = "dataset/tempWav/" + str(alpha)
+        is_folderpath(folder_path)
+        print(filepath)
         track = AudioSegment.from_file(m4a_file, format='m4a')
-        file_handle = track.export(wav_filename, format='wav')
+        file_handle = track.export(filepath, format='wav')

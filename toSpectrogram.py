@@ -13,7 +13,11 @@ DATA_NUM = 30
 paths = []
 abel_gubuns = []
 
-for dirname, _, filenames in os.walk("dataset/tempWav"):
+def is_folderpath(folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+for dirname, _, filenames in os.walk("dataset/wav"):
     for filename in filenames:
         # load audio file with Librosa
         file_path = dirname + '/' + filename
@@ -80,12 +84,16 @@ for dirname, _, filenames in os.walk("dataset/tempWav"):
         plt.figure(figsize=FIG_SIZE)
         librosa.display.specshow(log_spectrogram, sr=sr, hop_length=hop_length, cmap='magma')
 
-        name_start_pos = filename.find('.')
-        name_end_pos = filename.rfind('.')
+        name_end1_pos = filename.find('_')
+        name_start2_pos = filename.rfind(('_'))+3
+        name_end2_pos = filename.rfind('.')
         abel_gubuns.append(filename[0])
-        print(filename[:name_start_pos]+ '_'+filename[name_end_pos-2:name_end_pos] + '.jpg')
         # save spectrogram image
-        plt.savefig('dataset/image/' + subdir + '/' + filename[:name_end_pos] + '.jpg')
+        filepath = 'dataset/image/' + subdir + '/' + filename[:name_end1_pos] + '_' + filename[name_start2_pos:name_end2_pos] + '.jpg'
+        print(filepath)
+        folder_path = "dataset/image/" + subdir
+        is_folderpath(folder_path)
+        plt.savefig(filepath)
         plt.close()
         # plt.show()
 

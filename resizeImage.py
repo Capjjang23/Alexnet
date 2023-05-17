@@ -6,6 +6,10 @@ from PIL import Image
 PATH = 'dataset/image'
 i = 0
 
+def is_folderpath(folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
 for dir, _ ,filenames in os.walk(PATH):
     print(dir," is resizing...")
     for filename in filenames:
@@ -23,4 +27,8 @@ for dir, _ ,filenames in os.walk(PATH):
         name_end_pos = filename.rfind('.')
 
         #print('dataset/image224/' + alpha + "/" + filename[:name_start_pos]+ '_'+filename[name_end_pos-2:name_end_pos] + '.jpg')
-        img_resize.save('dataset/image224/' + alpha + "/" + filename[:name_start_pos]+ '_'+filename[name_end_pos-2:name_end_pos] + '.jpg')
+        filepath = 'dataset/image224/' + alpha + "/" + filename[:name_start_pos] + '.jpg'
+        print(filepath)
+        folder_path = 'dataset/image224/' + alpha
+        is_folderpath(folder_path)
+        img_resize.save(filepath)
